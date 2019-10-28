@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+<style>
+    .banner{
+        width:100%;
+    }
+    .tab{
+        width:600px;
+        height:400px;
+        overflow: hidden;       
+        float:left;
+    }
+    .tab img{
+        width:600px;
+        height:400px;
+    }
+    .many{
+        width:600px;
+        height:50px;
+    }
+    .many span{
+        display: inline-block;
+        width:50px;
+        height:50px;
+        background-color:dimgray;
+        color:white;
+        font-size:30px;
+        line-height:50px;
+        text-align: center
+    }
+    .many #l{
+        float:left;
+    }
+    .many #r{
+        float:right;
+    }
+    #num{
+        display: inline-block;
+    }
+    a{
+        display: inline-block;
+        width:70px;
+        height:50px;
+        margin-left:8px;
+    }
+    a img{
+       width:70px; 
+        height:50px;
+    }
+    .active{
+        transform: scale(1.2);
+    }
+    #big{
+        width:1000px;
+        height:600px;
+        border:1px solid red;
+        overflow: hidden;
+        position:absolute;
+        top:0;
+        left:700px;
+        
+    }
+    #big img{
+        width:1000px;
+        height:600px;
+        float:left;
+        
+    }
+</style>
+<body>
+    <div class="banner">
+        <div class="tab" id="tab">
+            <div>
+                <img src="img/img-1.jpg">
+            </div>
+            <div>
+                <img src="img/img-2.jpg">
+            </div>
+            <div>
+                <img src="img/img-3.jpg">
+            </div>
+            <div>
+                <img src="img/img-4.jpg">
+            </div>
+            <div>
+                <img src="img/img-5.jpg">
+            </div>    
+            <div>
+                <img src="img/img-6.jpg">
+            </div>        
+        </div>
+        <div class="many">
+            <span id="l"> < </span>
+            <div id="num">
+                <a href="#" class="active"><img src="img/img-1.jpg" ></a>
+                <a href="#"><img src="img/img-2.jpg" ></a>
+                <a href="#"><img src="img/img-3.jpg" ></a>
+                <a href="#"><img src="img/img-4.jpg" ></a>
+                <a href="#"><img src="img/img-5.jpg" ></a>
+                <a href="#"><img src="img/img-6.jpg" ></a> 
+            </div>
+            <span id="r"> > </span>
+        </div>
+        <div id="big">
+                    <div>
+                        <img src="img/img-1.jpg">
+                    </div>
+                    <div>
+                        <img src="img/img-2.jpg">
+                    </div>
+                    <div>
+                        <img src="img/img-3.jpg">
+                    </div>
+                    <div>
+                        <img src="img/img-4.jpg">
+                    </div>
+                    <div>
+                        <img src="img/img-5.jpg">
+                    </div>    
+                    <div>
+                        <img src="img/img-6.jpg">
+                    </div>  
+        </div>
+    </div>
+    <script>
+        var tabs = document.getElementById('tab');
+        var tabdiv = tabs.getElementsByTagName('div');
+        var big = document.getElementById('big');
+        var imgs = big.getElementsByTagName('img');
+        
+        var zuo = document.getElementById('l');
+        var you = document.getElementById('r');
+        
+        var num = document.getElementById('num');
+        var as = num.getElementsByTagName('a');
+
+        var 数字 = 0;
+        var timer = null; 
+        
+        // 设置定时器
+        timer = setInterval(moveRight,2000);
+        // 执行
+        for(var o=0;o<tabdiv.length;o++){
+            tabdiv[o].onmouseover=function(){
+                
+                clearInterval(timer);
+                big.style.display='block';
+            }
+            tabdiv[o].onmouseout=function(){
+                clearInterval(timer);
+                big.style.display='none';
+                timer = setInterval(moveRight,2000);
+            }
+        }
+        function moveRight(){
+            数字++;
+            if(数字==as.length){
+                数字=0;
+            }
+            for(var j=0;j<as.length;j++){
+                as[j].className="";
+                tabdiv[j].style.display='none';
+                imgs[j].style.display='none';
+
+            }
+            as[数字].className="active";
+            imgs[数字].style.display="block";
+            tabdiv[数字].style.display="block";
+        }
+        // 点击向右
+        you.onclick = moveRight;
+        // 点击向左
+        zuo.onclick = function(){
+            数字--;
+            if(数字==-1){
+                数字=tabdiv.length-1;
+            }
+            for(var j=0;j<as.length;j++){
+                as[j].className="";
+                tabdiv[j].style.display='none';
+                imgs[j].style.display='none';
+            }
+            as[数字].className="active";
+            tabdiv[数字].style.display="block";
+            imgs[数字].style.display="block";
+        }
+        for(var i=0;i<as.length;i++){
+            as[i].setAttribute('z',i)
+            as[i].onclick=function(){
+                for(var j=0;j<as.length;j++){
+                    as[j].className="";
+                    tabdiv[j].style.display='none';
+                    imgs[j].style.display='none';
+                }
+                this.className="active";
+                tabdiv[this.getAttribute('z')].style.display='block';
+                imgs[this.getAttribute('z')].style.display='block';                
+                数字 = this.getAttribute('z');
+            }
+        }
+    </script>
+</body>
+</html>
